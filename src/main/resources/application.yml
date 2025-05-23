@@ -1,6 +1,8 @@
 spring:
   application:
     name: sport
+  profiles:
+    active: ${SPRING_PROFILE_ACTIVE:local}
   datasource:
     url: jdbc:postgresql://localhost:5432/sport
     driver-class-name: org.postgresql.Driver
@@ -8,7 +10,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
   security:
     oauth2:
       client:
