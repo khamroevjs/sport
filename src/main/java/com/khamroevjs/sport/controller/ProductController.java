@@ -1,52 +1,59 @@
 package com.khamroevjs.sport.controller;
 
+import com.khamroevjs.sport.dto.ProductDTO;
 import com.khamroevjs.sport.model.Product;
-import com.khamroevjs.sport.repository.ProductRepository;
+import com.khamroevjs.sport.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
+        Product product = productService.createProduct(productDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productService.getAllProducts(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        return optionalProduct.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public Product getProductById(@PathVariable Integer id) {
+        return productService.getProduct(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product productDetails) {
-        return productRepository.findById(id).map(product -> {
-            product.setName(productDetails.getName());
-            product.setPrice(productDetails.getPrice());
-            productRepository.save(product);
-            return ResponseEntity.ok(product);
-        }).orElse(ResponseEntity.notFound().build());
+    @PreAuthorize("hasRole('ADMIN')")
+    public Product updateProduct(@PathVariable Integer id, @RequestBody ProductDTO productDTO) {
+        return productService.updateProduct(id, productDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
-        productRepository.deleteById(id);
+        productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 }

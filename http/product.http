@@ -1,0 +1,43 @@
+@host = localhost:8080
+@authToken = YOUR_ACCESS_TOKEN
+
+###  Creat a product
+POST /api/products HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Running Shoes",
+  "price": 99.99
+}
+
+
+### Get all products
+GET /api/products?page=0&size=10&sort=name,asc HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer {{authToken}}
+
+
+### Get product with id 1
+GET /api/products/1 HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer {{authToken}}
+
+
+### Update product with id 1
+PUT /api/products/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Premium Running Shoes",
+  "price": 129.99
+}
+
+
+### Delete product with id 1
+DELETE /api/products/1 HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer {{authToken}}

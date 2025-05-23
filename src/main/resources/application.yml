@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: sport
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sport
+    driver-class-name: org.postgresql.Driver
+    username: khamroev
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_ID}
+
+jwt:
+  expiration: 60 # Specified in minutes
+  secret: ${JWT_SECRET:633295e5e06341e669eaf913f0d90c5ad4d74de3063e3284a4adb4ab5d250992}

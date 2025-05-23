@@ -1,0 +1,17 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: sport-epam
+    environment:
+      POSTGRES_DB: sport
+      POSTGRES_USER: khamroev
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    networks:
+      - sport-network
+
+networks:
+  sport-network:
+    driver: bridge
