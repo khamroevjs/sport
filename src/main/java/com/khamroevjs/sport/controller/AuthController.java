@@ -6,7 +6,7 @@ import com.khamroevjs.sport.dto.RegisterRequest;
 import com.khamroevjs.sport.model.User;
 import com.khamroevjs.sport.model.UserRole;
 import com.khamroevjs.sport.security.JwtUtil;
-import com.khamroevjs.sport.security.UserService;
+import com.khamroevjs.sport.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,16 +50,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        try {
-            var authenticationToken = new UsernamePasswordAuthenticationToken(request.username(), request.password());
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(request.username(), request.password());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtUtil.generateToken(userDetails);
-            return ResponseEntity.ok(new AuthResponse(token, "Login successful"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new AuthResponse(null, "Invalid username or password"));
-        }
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String token = jwtUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new AuthResponse(token, "Login successful"));
     }
 
     @GetMapping("/oauth2/success")

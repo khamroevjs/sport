@@ -1,4 +1,4 @@
-package com.khamroevjs.sport.security;
+package com.khamroevjs.sport.service;
 
 import com.khamroevjs.sport.dto.RegisterRequest;
 import com.khamroevjs.sport.model.User;

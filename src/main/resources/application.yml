@@ -19,6 +19,24 @@ spring:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_ID}
 
+
+management:
+  health:
+    db:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,metrics
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+
 jwt:
   expiration: 60 # Specified in minutes
   secret: ${JWT_SECRET:633295e5e06341e669eaf913f0d90c5ad4d74de3063e3284a4adb4ab5d250992}
