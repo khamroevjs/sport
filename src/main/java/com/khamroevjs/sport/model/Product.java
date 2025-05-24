@@ -13,7 +13,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -29,7 +29,7 @@ public class Product {
         this.price = price;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
