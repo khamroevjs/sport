@@ -1,0 +1,35 @@
+@host = localhost:8080
+
+### Register a user with USER role
+POST /api/auth/register HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "password123",
+  "role": "USER"
+}
+
+
+### Register a user with ADMIN role
+POST /api/auth/register HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+  "username": "newadmin",
+  "password": "password123",
+  "role": "ADMIN"
+}
+
+
+### Login
+POST /api/auth/login HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "password123"
+}
